@@ -9,7 +9,8 @@
     ],
     "exposed-modules": [
       "Swapi.Query",
-      "Swapi.Enum.Episode"
+      "Swapi.Enum.Episode",
+      "Swapi.Object.Character"
     ],
     "dependencies": {
         "dillonkearns/graphqelm": "1.0.0 <= v < 2.0.0",
