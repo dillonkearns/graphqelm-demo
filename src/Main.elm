@@ -1,10 +1,5 @@
 module Main exposing (main)
 
-import Api.Enum.Episode as Episode exposing (Episode)
-import Api.Object
-import Api.Object.Character as Character
-import Api.Object.Human as Human
-import Api.Query as Query
 import Graphqelm exposing (RootQuery)
 import Graphqelm.DocumentSerializer as DocumentSerializer
 import Graphqelm.FieldDecoder as FieldDecoder
@@ -12,6 +7,11 @@ import Graphqelm.Http
 import Graphqelm.Object exposing (Object, with)
 import Html exposing (div, h1, p, pre, text)
 import RemoteData exposing (WebData)
+import Swapi.Enum.Episode as Episode exposing (Episode)
+import Swapi.Object
+import Swapi.Object.Character as Character
+import Swapi.Object.Human as Human
+import Swapi.Query as Query
 
 
 type alias Response =
@@ -37,7 +37,7 @@ type alias Hero =
     }
 
 
-hero : Object Hero Api.Object.Character
+hero : Object Hero Swapi.Object.Character
 hero =
     Character.build Hero
         |> with Character.name
@@ -46,7 +46,7 @@ hero =
         |> with Character.appearsIn
 
 
-heroWithName : Object String Api.Object.Character
+heroWithName : Object String Swapi.Object.Character
 heroWithName =
     Character.build identity
         |> with Character.name
@@ -58,7 +58,7 @@ type alias Human =
     }
 
 
-human : Object Human Api.Object.Human
+human : Object Human Swapi.Object.Human
 human =
     Human.build Human
         |> with Human.name

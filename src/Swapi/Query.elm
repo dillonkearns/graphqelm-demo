@@ -1,7 +1,7 @@
-module Api.Query exposing (..)
+module Swapi.Query exposing (..)
 
-import Api.Enum.Episode
-import Api.Object
+import Swapi.Enum.Episode
+import Swapi.Object
 import Graphqelm exposing (RootQuery)
 import Graphqelm.Builder.Argument as Argument exposing (Argument)
 import Graphqelm.Builder.Object as Object
@@ -17,12 +17,12 @@ build constructor =
     RootObject.object constructor
 
 
-droid : { id : String } -> Object droid Api.Object.Droid -> FieldDecoder droid RootQuery
+droid : { id : String } -> Object droid Swapi.Object.Droid -> FieldDecoder droid RootQuery
 droid requiredArgs object =
     RootObject.single "droid" [ Argument.string "id" requiredArgs.id ] object
 
 
-hero : ({ episode : Maybe Api.Enum.Episode.Episode } -> { episode : Maybe Api.Enum.Episode.Episode }) -> Object hero Api.Object.Character -> FieldDecoder hero RootQuery
+hero : ({ episode : Maybe Swapi.Enum.Episode.Episode } -> { episode : Maybe Swapi.Enum.Episode.Episode }) -> Object hero Swapi.Object.Character -> FieldDecoder hero RootQuery
 hero fillInOptionals object =
     let
         filledInOptionals =
@@ -35,6 +35,6 @@ hero fillInOptionals object =
     RootObject.single "hero" optionalArgs object
 
 
-human : { id : String } -> Object human Api.Object.Human -> FieldDecoder human RootQuery
+human : { id : String } -> Object human Swapi.Object.Human -> FieldDecoder human RootQuery
 human requiredArgs object =
     RootObject.single "human" [ Argument.string "id" requiredArgs.id ] object
