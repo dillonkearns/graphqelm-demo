@@ -11,7 +11,8 @@
       "Swapi.Query",
       "Swapi.Enum.Episode",
       "Swapi.Object.Character",
-      "Swapi.Object.Droid"
+      "Swapi.Object.Droid",
+      "Swapi.Object.Human"
     ],
     "dependencies": {
         "dillonkearns/graphqelm": "1.0.0 <= v < 2.0.0",
