@@ -25,9 +25,4 @@ defmodule StarWarsWeb.SubscriptionCase do
       import unquote(__MODULE__), only: [menu_item: 1]
     end
   end
-
-  # handy function for grabbing a fixture
-  def menu_item(name) do
-    StarWars.Repo.get_by!(StarWars.Menu.Item, name: name)
-  end
 end
