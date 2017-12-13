@@ -19,7 +19,7 @@ defmodule StarWarsWeb.Router do
     forward "/api", Absinthe.Plug,
       schema: StarWarsWeb.Schema
 
-    forward "/graphiql", Absinthe.Plug.GraphiQL,
+    forward "/", Absinthe.Plug.GraphiQL,
       schema: StarWarsWeb.Schema,
       interface: :simple
   end
