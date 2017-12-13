@@ -8,6 +8,7 @@
     ],
     "exposed-modules": [
       "Swapi.Query",
+      "Swapi.Object",
       "Swapi.Enum.Episode",
       "Swapi.Object.Character",
       "Swapi.Object.Droid",
