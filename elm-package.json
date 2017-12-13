@@ -8,7 +8,7 @@
         "src"
     ],
     "exposed-modules": [
-      
+      "Swapi.Query"
     ],
     "dependencies": {
         "dillonkearns/graphqelm": "1.0.0 <= v < 2.0.0",

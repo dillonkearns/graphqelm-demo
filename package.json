@@ -1,14 +1,8 @@
 {
-  "name": "graphqelm",
-  "version": "0.0.2",
+  "name": "graphqelm-demo",
+  "version": "0.0.1",
   "scripts": {
-    "build": "webpack -p",
-    "elm-nuke": "rm -rf elm-stuff && elm package install -y && cd tests && rm -rf elm-stuff && elm package install -y && cd ..",
-    "test": "elm-test",
-    "gen:starwars": "npm run build && cd example/starwars && ../../bin/graphqelm https://graphqelm.herokuapp.com/api && elm-format src/Api --yes && cd -",
-    "gen:github": "npm run build && cd example/github && ../../bin/graphqelm https://api.github.com/graphql --header 'authorization: Bearer dbd4c239b0bbaa40ab0ea291fa811775da8f5b59' && elm-format src/Api --yes && cd -",
-    "gen:menu": "npm run build && cd example/ && ../bin/graphqelm http://localhost:4000/api && elm-format src/Api --yes && cd -",
-    "elm-analyse": "elm-analyse --serve"
+    "gen:starwars": "npm run build && cd example/starwars && ../../bin/graphqelm https://graphqelm.herokuapp.com/api && elm-format src/Api --yes && cd -"
   },
   "keywords": [
     "elm",
@@ -18,28 +12,7 @@
   "author": "Dillon Kearns",
   "license": "BSD-3-Clause",
   "devDependencies": {
-    "@types/chai": "^4.0.6",
-    "@types/minimist": "^1.2.0",
-    "@types/mocha": "^2.2.41",
-    "@types/node": "^8.0.19",
-    "@types/request": "^2.0.8",
-    "@types/webpack": "^3.8.1",
     "elm": "^0.18.0",
-    "elm-analyse": "^0.13.1",
-    "elm-hot-loader": "0.5.4",
-    "elm-test": "^0.18.10",
-    "elm-webpack-loader": "^4.3.1",
-    "ts-loader": "^3.2.0",
-    "typescript": "^2.6.2",
-    "webpack": "^3.9.1",
-    "webpack-dev-server": "^2.9.5"
-  },
-  "dependencies": {
-    "graphql-request": "^1.4.0",
-    "minimist": "^1.2.0",
-    "request": "^2.83.0"
-  },
-  "bin": {
-    "graphqelm": "bin/graphqelm"
+    "graphqelm": "0.0.2"
   }
 }
