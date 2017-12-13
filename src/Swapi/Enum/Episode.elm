@@ -1,14 +1,22 @@
 module Swapi.Enum.Episode exposing (..)
 
+{-| Enum for all episodes that the API has in its system.
+@docs Episode, decoder
+-}
+
 import Json.Decode as Decode exposing (Decoder)
 
 
+{-| Episode enum.
+-}
 type Episode
     = EMPIRE
     | JEDI
     | NEWHOPE
 
 
+{-| Decode an Episode from the GraphQL endpoint.
+-}
 decoder : Decoder Episode
 decoder =
     Decode.string

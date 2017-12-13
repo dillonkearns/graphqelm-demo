@@ -8,7 +8,8 @@
         "src"
     ],
     "exposed-modules": [
-      "Swapi.Query"
+      "Swapi.Query",
+      "Swapi.Enum.Episode"
     ],
     "dependencies": {
         "dillonkearns/graphqelm": "1.0.0 <= v < 2.0.0",
