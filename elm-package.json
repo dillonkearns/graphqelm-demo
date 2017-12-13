@@ -10,7 +10,8 @@
     "exposed-modules": [
       "Swapi.Query",
       "Swapi.Enum.Episode",
-      "Swapi.Object.Character"
+      "Swapi.Object.Character",
+      "Swapi.Object.Droid"
     ],
     "dependencies": {
         "dillonkearns/graphqelm": "1.0.0 <= v < 2.0.0",
