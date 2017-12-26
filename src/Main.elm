@@ -1,10 +1,10 @@
 module Main exposing (main)
 
 import Graphqelm exposing (RootQuery)
-import Graphqelm.DocumentSerializer as DocumentSerializer
+import Graphqelm.Document as Document
 import Graphqelm.FieldDecoder as FieldDecoder
 import Graphqelm.Http
-import Graphqelm.Object exposing (Object, with)
+import Graphqelm.SelectionSet exposing (SelectionSet, with)
 import Html exposing (div, h1, p, pre, text)
 import RemoteData exposing (WebData)
 import Swapi.Enum.Episode as Episode exposing (Episode)
@@ -21,9 +21,9 @@ type alias Response =
     }
 
 
-query : Object Response RootQuery
+query : SelectionSet Response RootQuery
 query =
-    Query.build Response
+    Query.selection Response
         |> with (Query.human { id = "1004" } human)
         |> with (Query.human { id = "1001" } human)
         |> with (Query.hero identity hero)
@@ -37,18 +37,18 @@ type alias Hero =
     }
 
 
-hero : Object Hero Swapi.Object.Character
+hero : SelectionSet Hero Swapi.Object.Character
 hero =
-    Character.build Hero
+    Character.selection Hero
         |> with Character.name
         |> with Character.id
         |> with (Character.friends heroWithName)
         |> with Character.appearsIn
 
 
-heroWithName : Object String Swapi.Object.Character
+heroWithName : SelectionSet String Swapi.Object.Character
 heroWithName =
-    Character.build identity
+    Character.selection identity
         |> with Character.name
 
 
@@ -58,9 +58,9 @@ type alias Human =
     }
 
 
-human : Object Human Swapi.Object.Human
+human : SelectionSet Human Swapi.Object.Human
 human =
-    Human.build Human
+    Human.selection Human
         |> with Human.name
         |> with (Human.appearsIn |> FieldDecoder.map (List.map episodeYear))
 
@@ -107,7 +107,7 @@ view model =
     div []
         [ div []
             [ h1 [] [ text "Generated Query" ]
-            , pre [] [ text (DocumentSerializer.serializeQuery query) ]
+            , pre [] [ text (Document.serializeQuery query) ]
             ]
         , div []
             [ h1 [] [ text "Response" ]
