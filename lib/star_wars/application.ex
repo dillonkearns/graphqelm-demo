@@ -8,8 +8,6 @@ defmodule StarWars.Application do
 
     # Define workers and child supervisors to be supervised
     children = [
-      # Start the Ecto repository
-      supervisor(StarWars.Repo, []),
       # Start the endpoint when the application starts
       supervisor(StarWarsWeb.Endpoint, []),
       # Start your own worker by calling: StarWars.Worker.start_link(arg1, arg2, arg3)
