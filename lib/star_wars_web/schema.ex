@@ -119,7 +119,7 @@ defmodule StarWarsWeb.Schema do
       end
     end
     field :appears_in, type: non_null(list_of(non_null(:episode)))
-    field :primary_function, non_null(:string)
+    field :primary_function, :string
     interface :character
   end
 
