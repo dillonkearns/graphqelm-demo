@@ -180,7 +180,7 @@ defmodule StarWarsWeb.Schema do
             :empire ->
               {:ok, @luke}
             _ ->
-                {:ok, @artoo}
+              {:ok, @artoo}
           end
         _, _ ->
           {:ok, @luke}
