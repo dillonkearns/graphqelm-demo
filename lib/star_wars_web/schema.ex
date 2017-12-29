@@ -64,7 +64,7 @@ defmodule StarWarsWeb.Schema do
 
   @desc "A character in the Star Wars Trilogy"
   interface :character do
-    @desc "The id of the character."
+    @desc "The ID of the character."
     field :id, non_null(:id)
     @desc "The name of the character."
     field :name, non_null(:string)
@@ -86,7 +86,7 @@ defmodule StarWarsWeb.Schema do
 
   @desc "A humanoid creature in the Star Wars universe."
   object :human do
-    @desc "The id of the human."
+    @desc "The ID of the human."
     field :id, non_null(:id)
     @desc "The name of the human."
     field :name, non_null(:string)
@@ -111,7 +111,7 @@ defmodule StarWarsWeb.Schema do
 
   @desc "A mechanical creature in the Star Wars universe."
   object :droid do
-    @desc "The id of the droid."
+    @desc "The ID of the droid."
     field :id, non_null(:id)
     @desc "The name of the droid."
     field :name, non_null(:string)
@@ -172,6 +172,7 @@ defmodule StarWarsWeb.Schema do
 
   query do
     field :human, :human do
+      @desc "ID of the human."
       arg :id, type: non_null(:id)
         resolve fn
           %{id: id}, _ ->
@@ -182,6 +183,7 @@ defmodule StarWarsWeb.Schema do
     end
 
     field :droid, :droid do
+      @desc "ID of the droid."
       arg :id, type: non_null(:id)
         resolve fn
           %{id: id}, _ ->
@@ -190,6 +192,7 @@ defmodule StarWarsWeb.Schema do
     end
 
     field :hero, :character do
+      @desc "If omitted, returns the hero of the whole saga. If provided, returns the hero of that particular episode."
       arg :episode, type: :episode
       resolve fn
         %{episode: episode}, _ ->
