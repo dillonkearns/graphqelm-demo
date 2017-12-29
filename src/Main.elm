@@ -5,8 +5,9 @@ import Graphqelm.Document as Document
 import Graphqelm.FieldDecoder as FieldDecoder
 import Graphqelm.Http
 import Graphqelm.SelectionSet exposing (SelectionSet, with)
-import Html exposing (div, h1, p, pre, text)
-import RemoteData exposing (WebData)
+import Html exposing (Html, a, div, h1, h2, p, pre, text)
+import Html.Attributes exposing (href, target)
+import RemoteData exposing (RemoteData)
 import Swapi.Enum.Episode as Episode exposing (Episode)
 import Swapi.Object
 import Swapi.Object.Character as Character
@@ -15,14 +16,16 @@ import Swapi.Query as Query
 
 
 type alias Response =
-    { tarkin : Human
-    , vader : Human
-    , hero : Hero
+    { tarkin : Maybe Human
+    , vader : Maybe Human
+    , hero : Maybe Hero
     }
 
 
 query : SelectionSet Response RootQuery
 query =
+    -- define the top-level query
+    -- this syntax is based on the json decode pipeline pattern
     Query.selection Response
         |> with (Query.human { id = "1004" } human)
         |> with (Query.human { id = "1001" } human)
@@ -30,6 +33,7 @@ query =
 
 
 type alias Hero =
+    -- as with JSON decoding, it's common to use type alias constructors
     { name : String
     , id : String
     , friends : List String
@@ -62,7 +66,12 @@ human : SelectionSet Human Swapi.Object.Human
 human =
     Human.selection Human
         |> with Human.name
-        |> with (Human.appearsIn |> FieldDecoder.map (List.map episodeYear))
+        |> with
+            (Human.appearsIn
+                -- FieldDecoder.map can be used to arbitraliy map
+                -- any field in your query
+                |> FieldDecoder.map (List.map episodeYear)
+            )
 
 
 episodeYear : Episode -> Int
@@ -81,10 +90,9 @@ episodeYear episode =
 makeRequest : Cmd Msg
 makeRequest =
     query
-        |> Graphqelm.Http.buildQueryRequest "https://graphqelm.herokuapp.com/api"
-        |> Graphqelm.Http.toRequest
-        |> RemoteData.sendRequest
-        |> Cmd.map GotResponse
+        |> Graphqelm.Http.buildQueryRequest
+            "https://graphqelm.herokuapp.com/api"
+        |> Graphqelm.Http.send (RemoteData.fromResult >> GotResponse)
 
 
 type Msg
@@ -92,7 +100,7 @@ type Msg
 
 
 type alias Model =
-    WebData Response
+    RemoteData Graphqelm.Http.Error Response
 
 
 init : ( Model, Cmd Msg )
@@ -112,6 +120,26 @@ view model =
         , div []
             [ h1 [] [ text "Response" ]
             , Html.text (toString model)
+            ]
+        , aboutView
+        ]
+
+
+aboutView : Html Msg
+aboutView =
+    div []
+        [ h2 [] [ text "About Graphqelm" ]
+        , p []
+            [ text "Swapi (Star Wars API) is the standard GraphQL example schema. The Swapi modules were auto-generated using the "
+            , a [ target "_blank", href "https://github.com/dillonkearns/graphqelm" ] [ text "graphqelm" ]
+            , text " CLI."
+            ]
+        , p []
+            [ text "You can play with the "
+            , a [ target "_blank", href "https://graphqelm.herokuapp.com/" ] [ text "interactive GraphQL editor for this api" ]
+            , text " or view the "
+            , a [ target "_blank", href "https://github.com/dillonkearns/graphqelm-demo" ] [ text "source code." ]
+            , text " Or experiment with the code right here in Ellie!"
             ]
         ]
 
