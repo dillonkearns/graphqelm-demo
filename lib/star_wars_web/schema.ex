@@ -84,22 +84,28 @@ defmodule StarWarsWeb.Schema do
     end
   end
 
+  @desc "A humanoid creature in the Star Wars universe."
   object :human do
+    @desc "The id of the human."
     field :id, non_null(:id)
+    @desc "The name of the human."
     field :name, non_null(:string)
+    @desc "The friends of the human, or an empty list if they have none."
     field :friends, type: non_null(list_of(non_null(:character))) do
       resolve fn
         human, _, _ ->
           {:ok, human.friends |> Enum.map(&get_character/1)}
       end
     end
+    @desc "Which movies they appear in."
     field :appears_in, type: non_null(list_of(non_null(:episode))) do
       resolve fn
         human, _, _ ->
           {:ok, human.appears_in |> Enum.map(&to_episode/1)}
       end
     end
-    field :home_planet, non_null(:string)
+    @desc "The home planet of the human, or null if unknown."
+    field :home_planet, :string
     interface :character
   end
 
