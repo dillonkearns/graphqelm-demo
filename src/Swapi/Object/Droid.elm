@@ -8,6 +8,7 @@ import Graphqelm.Builder.Argument as Argument exposing (Argument)
 import Graphqelm.Builder.Object as Object
 import Graphqelm.Encode as Encode exposing (Value)
 import Graphqelm.FieldDecoder as FieldDecoder exposing (FieldDecoder)
+import Graphqelm.OptionalArgument exposing (OptionalArgument(Absent))
 import Graphqelm.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 import Swapi.Enum.Episode
@@ -21,36 +22,36 @@ selection constructor =
     Object.object constructor
 
 
-{-| Episodes the Droid appears in.
+{-| Which movies they appear in.
 -}
 appearsIn : FieldDecoder (List Swapi.Enum.Episode.Episode) Swapi.Object.Droid
 appearsIn =
     Object.fieldDecoder "appearsIn" [] (Swapi.Enum.Episode.decoder |> Decode.list)
 
 
-{-| Droid's friends.
+{-| The friends of the droid, or an empty list if they have none.
 -}
 friends : SelectionSet friends Swapi.Object.Character -> FieldDecoder (List friends) Swapi.Object.Droid
 friends object =
-    Object.listOf "friends" [] object
+    Object.selectionFieldDecoder "friends" [] object (identity >> Decode.list)
 
 
-{-| Droid's id.
+{-| The ID of the droid.
 -}
 id : FieldDecoder String Swapi.Object.Droid
 id =
     Object.fieldDecoder "id" [] Decode.string
 
 
-{-| Droid's name.
+{-| The name of the droid.
 -}
 name : FieldDecoder String Swapi.Object.Droid
 name =
     Object.fieldDecoder "name" [] Decode.string
 
 
-{-| Droid's primary function.
+{-| The primary function of the droid.
 -}
-primaryFunction : FieldDecoder String Swapi.Object.Droid
+primaryFunction : FieldDecoder (Maybe String) Swapi.Object.Droid
 primaryFunction =
-    Object.fieldDecoder "primaryFunction" [] Decode.string
+    Object.fieldDecoder "primaryFunction" [] (Decode.string |> Decode.maybe)

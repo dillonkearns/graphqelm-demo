@@ -7,7 +7,12 @@ module Swapi.Enum.Episode exposing (..)
 import Json.Decode as Decode exposing (Decoder)
 
 
-{-| Episode enum.
+{-| One of the films in the Star Wars Trilogy
+
+  - EMPIRE - Released in 1980.
+  - JEDI - Released in 1983.
+  - NEWHOPE - Released in 1977.
+
 -}
 type Episode
     = EMPIRE

@@ -12,6 +12,7 @@ import Graphqelm.Builder.Argument as Argument exposing (Argument)
 import Graphqelm.Builder.Object as Object
 import Graphqelm.Encode as Encode exposing (Value)
 import Graphqelm.FieldDecoder as FieldDecoder exposing (FieldDecoder)
+import Graphqelm.OptionalArgument exposing (OptionalArgument(Absent))
 import Graphqelm.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode exposing (Decoder)
 import Swapi.Enum.Episode
@@ -25,30 +26,39 @@ selection constructor =
     Object.object constructor
 
 
-{-| Top-level query to retrieve a droid.
+{-|
+
+  - id - ID of the droid.
+
 -}
-droid : { id : String } -> SelectionSet droid Swapi.Object.Droid -> FieldDecoder droid RootQuery
+droid : { id : String } -> SelectionSet droid Swapi.Object.Droid -> FieldDecoder (Maybe droid) RootQuery
 droid requiredArgs object =
-    Object.single "droid" [ Argument.string "id" requiredArgs.id ] object
+    Object.selectionFieldDecoder "droid" [ Argument.required "id" requiredArgs.id Encode.string ] object (identity >> Decode.maybe)
 
 
-{-| Top-level query to retrieve a hero.
+{-|
+
+  - episode - If omitted, returns the hero of the whole saga. If provided, returns the hero of that particular episode.
+
 -}
-hero : ({ episode : Maybe Swapi.Enum.Episode.Episode } -> { episode : Maybe Swapi.Enum.Episode.Episode }) -> SelectionSet hero Swapi.Object.Character -> FieldDecoder hero RootQuery
+hero : ({ episode : OptionalArgument Swapi.Enum.Episode.Episode } -> { episode : OptionalArgument Swapi.Enum.Episode.Episode }) -> SelectionSet hero Swapi.Object.Character -> FieldDecoder (Maybe hero) RootQuery
 hero fillInOptionals object =
     let
         filledInOptionals =
-            fillInOptionals { episode = Nothing }
+            fillInOptionals { episode = Absent }
 
         optionalArgs =
             [ Argument.optional "episode" filledInOptionals.episode (Encode.enum toString) ]
                 |> List.filterMap identity
     in
-    Object.single "hero" optionalArgs object
+    Object.selectionFieldDecoder "hero" optionalArgs object (identity >> Decode.maybe)
 
 
-{-| Top-level query to retrieve a human.
+{-|
+
+  - id - ID of the human.
+
 -}
-human : { id : String } -> SelectionSet human Swapi.Object.Human -> FieldDecoder human RootQuery
+human : { id : String } -> SelectionSet human Swapi.Object.Human -> FieldDecoder (Maybe human) RootQuery
 human requiredArgs object =
-    Object.single "human" [ Argument.string "id" requiredArgs.id ] object
+    Object.selectionFieldDecoder "human" [ Argument.required "id" requiredArgs.id Encode.string ] object (identity >> Decode.maybe)
