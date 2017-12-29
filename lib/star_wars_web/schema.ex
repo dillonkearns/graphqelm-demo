@@ -112,7 +112,7 @@ defmodule StarWarsWeb.Schema do
   object :droid do
     field :id, non_null(:id)
     field :name, non_null(:string)
-        field :friends, type: non_null(list_of(non_null(:character))) do
+    field :friends, type: non_null(list_of(non_null(:character))) do
       resolve fn
         human, _, _ ->
           {:ok, human.friends |> Enum.map(&get_character/1)}
