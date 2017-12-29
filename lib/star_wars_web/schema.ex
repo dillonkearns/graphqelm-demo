@@ -62,15 +62,20 @@ defmodule StarWarsWeb.Schema do
 
   use Absinthe.Schema
 
+  @desc "A character in the Star Wars Trilogy"
   interface :character do
+    @desc "The id of the character."
     field :id, non_null(:id)
+    @desc "The name of the character."
     field :name, non_null(:string)
+    @desc  "The friends of the character, or an empty list if they have none."
     field :friends, type: non_null(list_of(non_null(:character))) do
       resolve fn
         character, _, _ ->
-          {:ok, character.friends |> Enum.map &get_character/1}
+          {:ok, character.friends |> Enum.map(&get_character/1)}
       end
     end
+    @desc "Which movies they appear in."
     field :appears_in, type: non_null(list_of(non_null(:episode)))
     resolve_type fn
       %Human{}, _ -> :human
@@ -85,13 +90,13 @@ defmodule StarWarsWeb.Schema do
     field :friends, type: non_null(list_of(non_null(:character))) do
       resolve fn
         human, _, _ ->
-          {:ok, human.friends |> Enum.map &get_character/1}
+          {:ok, human.friends |> Enum.map(&get_character/1)}
       end
     end
     field :appears_in, type: non_null(list_of(non_null(:episode))) do
       resolve fn
         human, _, _ ->
-          {:ok, human.appears_in |> Enum.map &to_episode/1}
+          {:ok, human.appears_in |> Enum.map(&to_episode/1)}
       end
     end
     field :home_planet, non_null(:string)
@@ -104,7 +109,7 @@ defmodule StarWarsWeb.Schema do
         field :friends, type: non_null(list_of(non_null(:character))) do
       resolve fn
         human, _, _ ->
-          {:ok, human.friends |> Enum.map &get_character/1}
+          {:ok, human.friends |> Enum.map(&get_character/1)}
       end
     end
     field :appears_in, type: non_null(list_of(non_null(:episode)))
@@ -135,8 +140,8 @@ defmodule StarWarsWeb.Schema do
 
   defp get_character(id) do
     get_human(id) || get_droid(id)
-
   end
+
   defp get_human(id) do
     %{
       "1000" => @luke,
