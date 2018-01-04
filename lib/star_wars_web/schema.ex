@@ -62,6 +62,17 @@ defmodule StarWarsWeb.Schema do
 
   use Absinthe.Schema
 
+  @desc "A union alternative to the character interface for learning purposes."
+  union :character_union do
+    types [:human, :droid]
+    resolve_type fn
+      %Human{}, _ -> :human
+      %Droid{}, _ -> :droid
+      _, _ -> nil
+    end
+  end
+
+
   @desc "A character in the Star Wars Trilogy"
   interface :character do
     @desc "The ID of the character."
@@ -189,6 +200,23 @@ defmodule StarWarsWeb.Schema do
           %{id: id}, _ ->
               {:ok, get_droid(id)}
         end
+    end
+
+    field :hero_union, :character_union do
+      @desc "If omitted, returns the hero of the whole saga. If provided, returns the hero of that particular episode."
+      arg :episode, type: :episode
+      resolve fn
+        %{episode: episode}, _ ->
+          case episode do
+            :empire ->
+              {:ok, @luke}
+            _ ->
+              {:ok, @artoo}
+          end
+        _, _ ->
+          {:ok, @luke}
+      end
+
     end
 
     field :hero, :character do
