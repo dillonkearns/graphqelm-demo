@@ -12,6 +12,7 @@ import Swapi.Enum.Episode as Episode exposing (Episode)
 import Swapi.Interface
 import Swapi.Interface.Character as Character
 import Swapi.Object
+import Swapi.Object.Droid as Droid
 import Swapi.Object.Human as Human
 import Swapi.Query as Query
 
@@ -25,39 +26,16 @@ type alias Response =
 
 query : SelectionSet Response RootQuery
 query =
-    -- define the top-level query
-    -- this syntax is based on the json decode pipeline pattern
+    -- Define the top-level query.
+    -- This syntax is based on the json decode pipeline pattern.
     Query.selection Response
         |> with (Query.human { id = "1004" } human)
         |> with (Query.human { id = "1001" } human)
         |> with (Query.hero identity hero)
 
 
-type alias Hero =
-    -- as with JSON decoding, it's common to use type alias constructors
-    { name : String
-    , id : String
-    , friends : List String
-    , appearsIn : List Episode
-    }
-
-
-hero : SelectionSet Hero Swapi.Interface.Character
-hero =
-    Character.commonSelection Hero
-        |> with Character.name
-        |> with Character.id
-        |> with (Character.friends heroWithName)
-        |> with Character.appearsIn
-
-
-heroWithName : SelectionSet String Swapi.Interface.Character
-heroWithName =
-    Character.commonSelection identity
-        |> with Character.name
-
-
 type alias Human =
+    -- As with JSON decoding, it's common to use type alias constructors.
     { name : String
     , yearsActive : List Int
     }
@@ -65,12 +43,15 @@ type alias Human =
 
 human : SelectionSet Human Swapi.Object.Human
 human =
+    -- Since a query is just an object in GraphQL,
+    -- the syntax for building a SelectionSet is
+    -- exactly the same for a Human object.
     Human.selection Human
         |> with Human.name
         |> with
             (Human.appearsIn
                 -- FieldDecoder.map can be used to arbitraliy map
-                -- any field in your query
+                -- any field in your query.
                 |> FieldDecoder.map (List.map episodeYear)
             )
 
@@ -86,6 +67,45 @@ episodeYear episode =
 
         Episode.Jedi ->
             1983
+
+
+type
+    HumanOrDroidDetails
+    -- Interfaces have type-specific attributes as well as common attributes
+    -- With Graphqelm, we represent the type-specific attributes with a union type.
+    = HumanDetails (Maybe String)
+    | DroidDetails (Maybe String)
+
+
+type alias Hero =
+    { details : Maybe HumanOrDroidDetails
+    , name : String
+    , id : String
+    , friends : List String
+    , appearsIn : List Episode
+    }
+
+
+hero : SelectionSet Hero Swapi.Interface.Character
+hero =
+    Character.selection Hero
+        -- The selection function for interfaces takes a list of type-specific
+        -- selections that all decode into the same type (typically a union)
+        [ Character.onDroid (Droid.selection DroidDetails |> with Droid.primaryFunction)
+        , Character.onHuman (Human.selection HumanDetails |> with Human.homePlanet)
+        ]
+        -- followed by all of the common attributes
+        -- (both Droids and Humans have these)
+        |> with Character.name
+        |> with Character.id
+        |> with (Character.friends heroWithName)
+        |> with Character.appearsIn
+
+
+heroWithName : SelectionSet String Swapi.Interface.Character
+heroWithName =
+    Character.commonSelection identity
+        |> with Character.name
 
 
 makeRequest : Cmd Msg
