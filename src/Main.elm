@@ -1,16 +1,17 @@
 module Main exposing (main)
 
-import Graphqelm exposing (RootQuery)
 import Graphqelm.Document as Document
 import Graphqelm.FieldDecoder as FieldDecoder
 import Graphqelm.Http
+import Graphqelm.Operation exposing (RootQuery)
 import Graphqelm.SelectionSet exposing (SelectionSet, with)
 import Html exposing (Html, a, div, h1, h2, p, pre, text)
 import Html.Attributes exposing (href, target)
 import RemoteData exposing (RemoteData)
 import Swapi.Enum.Episode as Episode exposing (Episode)
+import Swapi.Interface
+import Swapi.Interface.Character as Character
 import Swapi.Object
-import Swapi.Object.Character as Character
 import Swapi.Object.Human as Human
 import Swapi.Query as Query
 
@@ -18,7 +19,7 @@ import Swapi.Query as Query
 type alias Response =
     { tarkin : Maybe Human
     , vader : Maybe Human
-    , hero : Maybe Hero
+    , hero : Hero
     }
 
 
@@ -41,18 +42,18 @@ type alias Hero =
     }
 
 
-hero : SelectionSet Hero Swapi.Object.Character
+hero : SelectionSet Hero Swapi.Interface.Character
 hero =
-    Character.selection Hero
+    Character.commonSelection Hero
         |> with Character.name
         |> with Character.id
         |> with (Character.friends heroWithName)
         |> with Character.appearsIn
 
 
-heroWithName : SelectionSet String Swapi.Object.Character
+heroWithName : SelectionSet String Swapi.Interface.Character
 heroWithName =
-    Character.selection identity
+    Character.commonSelection identity
         |> with Character.name
 
 
@@ -77,13 +78,13 @@ human =
 episodeYear : Episode -> Int
 episodeYear episode =
     case episode of
-        Episode.NEWHOPE ->
+        Episode.Newhope ->
             1977
 
-        Episode.EMPIRE ->
+        Episode.Empire ->
             1980
 
-        Episode.JEDI ->
+        Episode.Jedi ->
             1983
 
 
