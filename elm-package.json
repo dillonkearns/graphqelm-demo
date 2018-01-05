@@ -9,13 +9,16 @@
     "exposed-modules": [
         "Swapi.Query",
         "Swapi.Object",
+        "Swapi.Interface",
+        "Swapi.Union",
         "Swapi.Enum.Episode",
-        "Swapi.Object.Character",
+        "Swapi.Interface.Character",
+        "Swapi.Union.CharacterUnion",
         "Swapi.Object.Droid",
         "Swapi.Object.Human"
     ],
     "dependencies": {
-        "dillonkearns/graphqelm": "3.0.0 <= v < 4.0.0",
+        "dillonkearns/graphqelm": "4.0.0 <= v < 5.0.0",
         "elm-lang/core": "5.0.0 <= v < 6.0.0",
         "elm-lang/html": "2.0.0 <= v < 3.0.0",
         "elm-lang/http": "1.0.0 <= v < 2.0.0",

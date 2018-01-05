@@ -1,6 +1,6 @@
 module Swapi.Object.Human exposing (..)
 
-{-| Code for retrieving fields from a Character in a type-safe way.
+{-| Code for retrieving fields from a Human in a type-safe way.
 @docs selection, appearsIn, friends, id, name, homePlanet
 -}
 
@@ -12,14 +12,16 @@ import Graphqelm.OptionalArgument exposing (OptionalArgument(Absent))
 import Graphqelm.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 import Swapi.Enum.Episode
+import Swapi.Interface
 import Swapi.Object
+import Swapi.Union
 
 
-{-| Specify the fields to use for the object.
+{-| Select fields to build up a SelectionSet for this object.
 -}
 selection : (a -> constructor) -> SelectionSet (a -> constructor) Swapi.Object.Human
 selection constructor =
-    Object.object constructor
+    Object.selection constructor
 
 
 {-| Which movies they appear in.
@@ -31,7 +33,7 @@ appearsIn =
 
 {-| The friends of the human, or an empty list if they have none.
 -}
-friends : SelectionSet friends Swapi.Object.Character -> FieldDecoder (List friends) Swapi.Object.Human
+friends : SelectionSet selection Swapi.Interface.Character -> FieldDecoder (List selection) Swapi.Object.Human
 friends object =
     Object.selectionFieldDecoder "friends" [] object (identity >> Decode.list)
 

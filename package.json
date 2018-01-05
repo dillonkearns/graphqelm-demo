@@ -2,7 +2,7 @@
   "name": "graphqelm-demo",
   "version": "0.0.1",
   "scripts": {
-    "gen:starwars": "npm run build && cd example/starwars && ../../bin/graphqelm https://graphqelm.herokuapp.com/api && elm-format src/Api --yes && cd -"
+    "gen": "graphqelm https://graphqelm.herokuapp.com --base Swapi"
   },
   "keywords": [
     "elm",
