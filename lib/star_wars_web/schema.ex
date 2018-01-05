@@ -219,7 +219,7 @@ defmodule StarWarsWeb.Schema do
 
     end
 
-    field :hero, :character do
+    field :hero, non_null(:character) do
       @desc "If omitted, returns the hero of the whole saga. If provided, returns the hero of that particular episode."
       arg :episode, type: :episode
       resolve fn
