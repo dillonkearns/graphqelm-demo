@@ -96,7 +96,7 @@ defmodule StarWarsWeb.Schema do
   end
 
   @desc "A humanoid creature in the Star Wars universe."
-  object :human do
+  object :human, name: "_human" do
     @desc "The ID of the human."
     field :id, non_null(:id)
     @desc "The name of the human."
@@ -141,13 +141,13 @@ defmodule StarWarsWeb.Schema do
   end
 
   @desc "One of the films in the Star Wars Trilogy"
-  enum :episode do
+  enum :episode, name: "_Episode" do
     @desc "Released in 1977."
-    value :newhope
+    value :newhope, name: "_newhope"
     @desc "Released in 1980."
-    value :empire
+    value :empire, name: "empire"
     @desc "Released in 1983."
-    value :jedi
+    value :jedi, name: "jedi_"
   end
 
   defp to_episode(n) do
@@ -182,7 +182,7 @@ defmodule StarWarsWeb.Schema do
   end
 
   query do
-    field :human, :human do
+    field :human, type: :human  do
       @desc "ID of the human."
       arg :id, type: non_null(:id)
         resolve fn
@@ -193,9 +193,9 @@ defmodule StarWarsWeb.Schema do
         end
     end
 
-    field :droid, :droid do
+    field :droid, type: :droid, name: "_droid" do
       @desc "ID of the droid."
-      arg :id, type: non_null(:id)
+      arg :_ID, type: non_null(:id)
         resolve fn
           %{id: id}, _ ->
               {:ok, get_droid(id)}
