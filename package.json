@@ -12,7 +12,6 @@
   "author": "Dillon Kearns",
   "license": "BSD-3-Clause",
   "devDependencies": {
-    "elm": "^0.18.0",
     "graphqelm": "0.0.2"
   }
 }
