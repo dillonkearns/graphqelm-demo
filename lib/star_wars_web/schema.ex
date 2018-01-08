@@ -181,7 +181,40 @@ defmodule StarWarsWeb.Schema do
     }[id]
   end
 
+  enum :language do
+    @desc "English"
+    value :en
+    @desc "Norwegian"
+    value :no
+    @desc "Spanish"
+    value :es
+  end
+
+  input_object :greeting_options do
+    field :prefix, :string
+  end
+
+  input_object :greeting do
+    field :name, non_null(:string)
+    field :language, :language
+    field :options, :greeting_options
+  end
+
   query do
+    field :greet, non_null(:string) do
+      arg :input, non_null(:greeting)
+      resolve fn
+        %{input: %{language: :no, name: name}}, _ ->
+          {:ok, "Hei, #{name}!"}
+        %{input: %{language: :es, name: name}}, _ ->
+            {:ok, "¡Hola, #{name}!"}
+        %{input: %{name: name, options: %{prefix: prefix}}}, _ ->
+          {:ok, "#{prefix}Hello, #{name}!"}
+        %{input: %{name: name}}, _ ->
+          {:ok, "Hello, #{name}!"}
+      end
+    end
+
     field :human, :human do
       @desc "ID of the human."
       arg :id, type: non_null(:id)
