@@ -5,8 +5,8 @@ import Graphqelm.FieldDecoder as FieldDecoder
 import Graphqelm.Http
 import Graphqelm.Operation exposing (RootQuery)
 import Graphqelm.SelectionSet exposing (SelectionSet, with)
-import Html exposing (Html, a, div, h1, h2, p, pre, text)
-import Html.Attributes exposing (href, target)
+import Html exposing (Html, a, div, h1, h2, img, p, pre, text)
+import Html.Attributes exposing (align, href, src, target, width)
 import RemoteData exposing (RemoteData)
 import Swapi.Enum.Episode as Episode exposing (Episode)
 import Swapi.Interface
@@ -149,9 +149,11 @@ view model =
 aboutView : Html Msg
 aboutView =
     div []
-        [ h2 [] [ text "About Graphqelm" ]
+        [ h2 [] [ text "About ", a [ href "https://github.com/dillonkearns/graphqelm", target "_blank" ] [ text "Graphqelm", img [ src "https://cdn.rawgit.com/martimatix/logo-graphqelm/master/logo.svg" ] [] ] ]
         , p []
-            [ text "Swapi (Star Wars API) is the standard GraphQL example schema. The Swapi modules were auto-generated using the "
+            [ text "Swapi (Star Wars API) is the standard GraphQL example schema (see "
+            , a [ href "http://graphql.org/learn/", target "_blank" ] [ text "the GraphQL tutorial" ]
+            , text "). The Swapi modules were auto-generated using the "
             , a [ target "_blank", href "https://github.com/dillonkearns/graphqelm" ] [ text "graphqelm" ]
             , text " CLI."
             ]

@@ -1,6 +1,8 @@
 # App artifacts
 /_build
 /db
+node_modules/
+elm.js
 /deps
 /*.ez
 logfile
