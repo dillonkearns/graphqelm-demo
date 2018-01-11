@@ -15,6 +15,7 @@ import Swapi.Object
 import Swapi.Object.Droid as Droid
 import Swapi.Object.Human as Human
 import Swapi.Query as Query
+import Swapi.Scalar
 
 
 type alias Response =
@@ -29,8 +30,8 @@ query =
     -- Define the top-level query.
     -- This syntax is based on the json decode pipeline pattern.
     Query.selection Response
-        |> with (Query.human { id = "1004" } human)
-        |> with (Query.human { id = "1001" } human)
+        |> with (Query.human { id = Swapi.Scalar.Id "1004" } human)
+        |> with (Query.human { id = Swapi.Scalar.Id "1001" } human)
         |> with (Query.hero identity hero)
 
 
@@ -80,7 +81,11 @@ type
 type alias Hero =
     { details : Maybe HumanOrDroidDetails
     , name : String
-    , id : String
+
+    -- non-primitive scalars are simple strings wrapped in type constructors
+    -- you can unwrap a scalar with a case statement or function like this:
+    -- (\(Swapi.Scalar.Id rawId) -> rawId)
+    , id : Swapi.Scalar.Id
     , friends : List String
     , appearsIn : List Episode
     }

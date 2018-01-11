@@ -15,6 +15,6 @@
   "devDependencies": {
     "elm": "^0.18.0",
     "elm-live": "^2.7.5",
-    "graphqelm": "0.0.2"
+    "graphqelm": "2.0.0"
   }
 }
