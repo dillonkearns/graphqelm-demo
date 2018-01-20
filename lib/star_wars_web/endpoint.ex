@@ -1,5 +1,6 @@
 defmodule StarWarsWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :star_wars
+  use Absinthe.Phoenix.Endpoint
 
   socket "/socket", StarWarsWeb.UserSocket
   plug CORSPlug

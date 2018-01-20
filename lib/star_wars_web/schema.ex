@@ -150,6 +150,51 @@ defmodule StarWarsWeb.Schema do
     value :jedi
   end
 
+  @desc "Phrases for StarChat"
+  enum :phrase do
+    @desc "Originally said by Leia."
+    value :help
+    @desc "Originally said by Vader."
+    value :faith
+    @desc "Originally said by Obi-Wan."
+    value :the_force
+    @desc "Originally said by Yoda."
+    value :try
+    @desc "Originally said by Vader."
+    value :father
+  end
+
+  object :chat_message do
+    field :phrase, non_null(:phrase)
+    field :character, :character
+  end
+
+  mutation do
+    field :send_message, :chat_message do
+      arg :phrase, non_null(:phrase)
+      arg :character_id, non_null(:id)
+
+      resolve fn _, %{phrase: phrase, character_id: character_id} , _ ->
+        chat_message = %{phrase: phrase, character: get_character(character_id)}
+        Absinthe.Subscription.publish(StarWarsWeb.Endpoint, chat_message,
+          new_message: "*")
+        {:ok, chat_message}
+      end
+
+    end
+
+  end
+
+  subscription do
+    field :new_message, :chat_message do
+
+      config fn _args, _info ->
+        {:ok, topic: "*"}
+      end
+    end
+  end
+
+
   defp to_episode(n) do
     case n do
       4 ->

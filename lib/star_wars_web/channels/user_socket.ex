@@ -1,5 +1,6 @@
 defmodule StarWarsWeb.UserSocket do
   use Phoenix.Socket
+  use Absinthe.Phoenix.Socket, schema: StarWarsWeb.Schema
 
   ## Channels
   # channel "room:*", StarWarsWeb.RoomChannel
