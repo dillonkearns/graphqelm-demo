@@ -6,7 +6,7 @@ defmodule StarWarsWeb.UserSocket do
   # channel "room:*", StarWarsWeb.RoomChannel
 
   ## Transports
-  transport :websocket, Phoenix.Transports.WebSocket, timeout: 45_000
+  transport :websocket, Phoenix.Transports.WebSocket, timeout: 45_000, check_origin: false
 
   # transport :longpoll, Phoenix.Transports.LongPoll
 
