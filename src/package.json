@@ -2,8 +2,8 @@
   "name": "graphqelm-demo",
   "version": "0.0.1",
   "scripts": {
-    "gen": "graphqelm https://graphqelm.herokuapp.com --base Swapi",
-    "start": "elm-live src/Main.elm --open --output=elm.js"
+    "gen": "cd .. && graphqelm https://graphqelm.herokuapp.com --base Swapi",
+    "start": "cd .. && elm-live src/Main.elm --open --output=elm.js"
   },
   "keywords": [
     "elm",
