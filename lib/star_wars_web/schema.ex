@@ -1,15 +1,16 @@
 defmodule Human do
-  defstruct [:id, :name, :friends, :appears_in, :home_planet]
+  defstruct [:id, :name, :avatar_url, :friends, :appears_in, :home_planet]
 
 end
 defmodule Droid do
-  defstruct [:id, :name, :friends, :appears_in, :primary_function]
+  defstruct [:id, :name, :avatar_url, :friends, :appears_in, :primary_function]
 
 end
 defmodule StarWarsWeb.Schema do
   @luke %Human{
     id: "1000",
     name: "Luke Skywalker",
+    avatar_url: "http://www.diszine.com/wp-content/uploads/2013/02/luke-skywalker-mark-hamill.jpg",
     friends: ["1002", "1003", "2000", "2001"],
     appears_in: [4, 5, 6],
     home_planet: "Tatooine"
@@ -17,6 +18,7 @@ defmodule StarWarsWeb.Schema do
   @vader %Human{
     id: "1001",
     name: "Darth Vader",
+    avatar_url: "https://avatarfiles.alphacoders.com/468/46847.jpg",
     friends: ["1004"],
     appears_in: [4, 5, 6],
     home_planet: "Tatooine",
@@ -25,6 +27,7 @@ defmodule StarWarsWeb.Schema do
    @han %Human{
     id: "1002",
     name: "Han Solo",
+    avatar_url: "http://comic-cons.xyz/wp-content/uploads/Star-Wars-avatars-Movie-Han-Solo-Harrison-Ford.jpg",
     friends: ["1000", "1003", "2001"],
     appears_in: [4, 5, 6]
   }
@@ -32,6 +35,7 @@ defmodule StarWarsWeb.Schema do
    @leia %Human{
     id: "1003",
     name: "Leia Organa",
+    avatar_url: "https://78.media.tumblr.com/avatar_60b17e7d34ad_128.pnj",
     friends: ["1000", "1002", "2000", "2001"],
     appears_in: [4, 5, 6],
     home_planet: "Alderaan"
@@ -40,6 +44,7 @@ defmodule StarWarsWeb.Schema do
    @tarkin %Human{
     id: "1004",
     name: "Wilhuff Tarkin",
+    avatar_url: "https://timedotcom.files.wordpress.com/2016/12/grand-moff-tarkin1.jpg?quality=30",
     friends: ["1001"],
     appears_in: [4]
   }
@@ -47,6 +52,7 @@ defmodule StarWarsWeb.Schema do
   @threepio %Droid{
     id: "2000",
     name: "C-3PO",
+    avatar_url: "https://pbs.twimg.com/profile_images/22039052/03.01.c3po_400x400.jpg",
     friends: ["1000", "1002", "1003", "2001"],
     appears_in: [4, 5, 6],
     primary_function: "Protocol",
@@ -55,6 +61,7 @@ defmodule StarWarsWeb.Schema do
   @artoo %Droid{
     id: "2001",
     name: "R2-D2",
+    avatar_url: "https://giffiles.alphacoders.com/884/thumb-8849.jpg",
     friends: ["1000", "1002", "1003"],
     appears_in: [4, 5, 6],
     primary_function: "Astromech",
@@ -86,6 +93,8 @@ defmodule StarWarsWeb.Schema do
           {:ok, character.friends |> Enum.map(&get_character/1)}
       end
     end
+    @desc "Url to a profile picture for the character."
+    field :avatar_url, type: non_null(:string)
     @desc "Which movies they appear in."
     field :appears_in, type: non_null(list_of(non_null(:episode)))
     resolve_type fn
@@ -101,6 +110,8 @@ defmodule StarWarsWeb.Schema do
     field :id, non_null(:id)
     @desc "The name of the human."
     field :name, non_null(:string)
+    @desc "Url to a profile picture for the character."
+    field :avatar_url, type: non_null(:string)
     @desc "The friends of the human, or an empty list if they have none."
     field :friends, type: non_null(list_of(non_null(:character))) do
       resolve fn
@@ -126,6 +137,8 @@ defmodule StarWarsWeb.Schema do
     field :id, non_null(:id)
     @desc "The name of the droid."
     field :name, non_null(:string)
+    @desc "Url to a profile picture for the character."
+    field :avatar_url, type: non_null(:string)
     @desc "The friends of the droid, or an empty list if they have none."
     field :friends, type: non_null(list_of(non_null(:character))) do
       resolve fn
@@ -162,6 +175,8 @@ defmodule StarWarsWeb.Schema do
     value :try
     @desc "Originally said by Vader."
     value :father
+    @desc "Originally said by Obi-Wan"
+    value :droids
   end
 
   object :chat_message do
