@@ -186,7 +186,7 @@ defmodule StarWarsWeb.Schema do
   end
 
   subscription do
-    field :new_message, :chat_message do
+    field :new_message, non_null(:chat_message) do
 
       config fn _args, _info ->
         {:ok, topic: "*"}
