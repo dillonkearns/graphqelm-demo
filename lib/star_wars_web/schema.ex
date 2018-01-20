@@ -177,6 +177,12 @@ defmodule StarWarsWeb.Schema do
     value :father
     @desc "Originally said by Obi-Wan"
     value :droids
+    @desc "Originally said by Han Solo"
+    value :bad_feeling
+    @desc "Originally said by Admiral Ackbar"
+    value :trap
+    @desc "Originally said by Vader"
+    value :traitor
   end
 
   object :chat_message do
