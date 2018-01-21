@@ -60,108 +60,25 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Swapi.Object.Droid",
-    "comment": " Code for retrieving fields from a Character in a type-safe way.\n@docs selection, appearsIn, friends, id, name, primaryFunction, avatarUrl\n",
+    "name": "Swapi.Object.ChatMessage",
+    "comment": " Chat messages for subscriptions demo\n\n@docs selection, character, phrase\n\n",
     "aliases": [],
     "types": [],
     "values": [
       {
-        "name": "appearsIn",
-        "comment": " Which movies they appear in.\n",
-        "type": "Graphqelm.Field.Field (List Swapi.Enum.Episode.Episode) Swapi.Object.Droid"
+        "name": "character",
+        "comment": " The character who sent the message.\n",
+        "type": "Graphqelm.SelectionSet.SelectionSet decodesTo Swapi.Interface.Character -> Graphqelm.Field.Field (Maybe.Maybe decodesTo) Swapi.Object.ChatMessage"
       },
       {
-        "name": "avatarUrl",
-        "comment": " Url to a profile picture for the character.\n",
-        "type": "Graphqelm.Field.Field String Swapi.Object.Droid"
-      },
-      {
-        "name": "friends",
-        "comment": " The friends of the droid, or an empty list if they have none.\n",
-        "type": "Graphqelm.SelectionSet.SelectionSet decodesTo Swapi.Interface.Character -> Graphqelm.Field.Field (List decodesTo) Swapi.Object.Droid"
-      },
-      {
-        "name": "id",
-        "comment": " The ID of the droid.\n",
-        "type": "Graphqelm.Field.Field Swapi.Scalar.Id Swapi.Object.Droid"
-      },
-      {
-        "name": "name",
-        "comment": " The name of the droid.\n",
-        "type": "Graphqelm.Field.Field String Swapi.Object.Droid"
-      },
-      {
-        "name": "primaryFunction",
-        "comment": " The primary function of the droid.\n",
-        "type": "Graphqelm.Field.Field (Maybe.Maybe String) Swapi.Object.Droid"
+        "name": "phrase",
+        "comment": " The phrase that was sent as the message.\n",
+        "type": "Graphqelm.Field.Field Swapi.Enum.Phrase.Phrase Swapi.Object.ChatMessage"
       },
       {
         "name": "selection",
         "comment": " Select fields to build up a SelectionSet for this object.\n",
-        "type": "(a -> constructor) -> Graphqelm.SelectionSet.SelectionSet (a -> constructor) Swapi.Object.Droid"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Swapi.Subscription",
-    "comment": "\n\n@docs selection, newMessage\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "newMessage",
-        "comment": " Listen for new messages that are published.\n",
-        "type": "Graphqelm.SelectionSet.SelectionSet decodesTo Swapi.Object.ChatMessage -> Graphqelm.Field.Field decodesTo Graphqelm.Operation.RootSubscription"
-      },
-      {
-        "name": "selection",
-        "comment": " Select fields to build up a top-level mutation. The request can be sent with\nfunctions from `Graphqelm.Http`.\n",
-        "type": "(a -> constructor) -> Graphqelm.SelectionSet.SelectionSet (a -> constructor) Graphqelm.Operation.RootSubscription"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Swapi.Object.Human",
-    "comment": " Code for retrieving fields from a Human in a type-safe way.\n@docs selection, appearsIn, friends, id, name, homePlanet, avatarUrl\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "appearsIn",
-        "comment": " Which movies they appear in.\n",
-        "type": "Graphqelm.Field.Field (List Swapi.Enum.Episode.Episode) Swapi.Object.Human"
-      },
-      {
-        "name": "avatarUrl",
-        "comment": " Url to a profile picture for the character.\n",
-        "type": "Graphqelm.Field.Field String Swapi.Object.Human"
-      },
-      {
-        "name": "friends",
-        "comment": " The friends of the human, or an empty list if they have none.\n",
-        "type": "Graphqelm.SelectionSet.SelectionSet decodesTo Swapi.Interface.Character -> Graphqelm.Field.Field (List decodesTo) Swapi.Object.Human"
-      },
-      {
-        "name": "homePlanet",
-        "comment": " The home planet of the human, or null if unknown.\n",
-        "type": "Graphqelm.Field.Field (Maybe.Maybe String) Swapi.Object.Human"
-      },
-      {
-        "name": "id",
-        "comment": " The ID of the human.\n",
-        "type": "Graphqelm.Field.Field Swapi.Scalar.Id Swapi.Object.Human"
-      },
-      {
-        "name": "name",
-        "comment": " The name of the human.\n",
-        "type": "Graphqelm.Field.Field String Swapi.Object.Human"
-      },
-      {
-        "name": "selection",
-        "comment": " Select fields to build up a SelectionSet for this object.\n",
-        "type": "(a -> constructor) -> Graphqelm.SelectionSet.SelectionSet (a -> constructor) Swapi.Object.Human"
+        "type": "(a -> constructor) -> Graphqelm.SelectionSet.SelectionSet (a -> constructor) Swapi.Object.ChatMessage"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -240,27 +157,6 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Swapi.InputObject.GreetingOptions",
-    "comment": "\n\n@docs GreetingOptions, encode\n\n",
-    "aliases": [
-      {
-        "name": "GreetingOptions",
-        "comment": " Type for the GreetingOptions input object.\n",
-        "args": [],
-        "type": "{ prefix : Graphqelm.OptionalArgument.OptionalArgument String }"
-      }
-    ],
-    "types": [],
-    "values": [
-      {
-        "name": "encode",
-        "comment": " Encode a GreetingOptions into a value that can be used as an argument.\n",
-        "type": "Swapi.InputObject.GreetingOptions.GreetingOptions -> Graphqelm.Internal.Encode.Value"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
     "name": "Swapi.Union.CharacterUnion",
     "comment": " Code for retrieving fields from a CharacterUnion in a type-safe way.\n@docs selection, onHuman, onDroid\n",
     "aliases": [],
@@ -285,163 +181,129 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Swapi.Scalar",
-    "comment": " Type constructors to build scalars. These data types are just wrappers\naround strings, but their types carry semantic information from the server.\n@docs Id\n",
+    "name": "Swapi.Subscription",
+    "comment": "\n\n@docs selection, newMessage\n\n",
     "aliases": [],
-    "types": [
-      {
-        "name": "Id",
-        "comment": " Id scalar\n",
-        "args": [],
-        "cases": [
-          [
-            "Id",
-            [
-              "String"
-            ]
-          ]
-        ]
-      }
-    ],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Swapi.Union",
-    "comment": " Type declarations used to give you type-safety so you only access types\nfrom the appropriate union.\n@docs CharacterUnion\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "CharacterUnion",
-        "comment": " CharacterUnion\n",
-        "args": [],
-        "cases": [
-          [
-            "CharacterUnion",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Swapi.Enum.Language",
-    "comment": " Enum for languages for greetings.\n@docs Language, decoder, toString\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Language",
-        "comment": "\n\n  - En - English\n  - Es - Spanish\n  - No - Norwegian\n\n",
-        "args": [],
-        "cases": [
-          [
-            "En",
-            []
-          ],
-          [
-            "Es",
-            []
-          ],
-          [
-            "No",
-            []
-          ]
-        ]
-      }
-    ],
+    "types": [],
     "values": [
       {
-        "name": "decoder",
-        "comment": " Decode a string from the GraphQL server into the Language union.\n",
-        "type": "Json.Decode.Decoder Swapi.Enum.Language.Language"
+        "name": "newMessage",
+        "comment": " Listen for new messages that are published.\n",
+        "type": "Graphqelm.SelectionSet.SelectionSet decodesTo Swapi.Object.ChatMessage -> Graphqelm.Field.Field decodesTo Graphqelm.Operation.RootSubscription"
       },
       {
-        "name": "toString",
-        "comment": " Convert from the union type representating the Enum to a string that the GraphQL server will recognize.\n",
-        "type": "Swapi.Enum.Language.Language -> String"
+        "name": "selection",
+        "comment": " Select fields to build up a top-level mutation. The request can be sent with\nfunctions from `Graphqelm.Http`.\n",
+        "type": "(a -> constructor) -> Graphqelm.SelectionSet.SelectionSet (a -> constructor) Graphqelm.Operation.RootSubscription"
       }
     ],
     "generated-with-elm-version": "0.18.0"
   },
   {
-    "name": "Swapi.Object",
-    "comment": " Type declarations used to give you type-safety so you only access types\nfrom the appropriate object.\n@docs Droid, Human, ChatMessage\n",
+    "name": "Swapi.Object.Human",
+    "comment": " Code for retrieving fields from a Human in a type-safe way.\n@docs selection, appearsIn, friends, id, name, homePlanet, avatarUrl\n",
     "aliases": [],
-    "types": [
-      {
-        "name": "ChatMessage",
-        "comment": " ChatMessage\n",
-        "args": [],
-        "cases": [
-          [
-            "ChatMessage",
-            []
-          ]
-        ]
-      },
-      {
-        "name": "Droid",
-        "comment": " Droid\n",
-        "args": [],
-        "cases": [
-          [
-            "Droid",
-            []
-          ]
-        ]
-      },
-      {
-        "name": "Human",
-        "comment": " Human\n",
-        "args": [],
-        "cases": [
-          [
-            "Human",
-            []
-          ]
-        ]
-      }
-    ],
-    "values": [],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "Swapi.Enum.Episode",
-    "comment": " Enum for all episodes that the API has in its system.\n@docs Episode, decoder, toString\n",
-    "aliases": [],
-    "types": [
-      {
-        "name": "Episode",
-        "comment": " One of the films in the Star Wars Trilogy\n\n  - Empire - Released in 1980.\n  - Jedi - Released in 1983.\n  - Newhope - Released in 1977.\n\n",
-        "args": [],
-        "cases": [
-          [
-            "Empire",
-            []
-          ],
-          [
-            "Jedi",
-            []
-          ],
-          [
-            "Newhope",
-            []
-          ]
-        ]
-      }
-    ],
+    "types": [],
     "values": [
       {
-        "name": "decoder",
-        "comment": " Decode an Episode from the GraphQL endpoint.\n",
-        "type": "Json.Decode.Decoder Swapi.Enum.Episode.Episode"
+        "name": "appearsIn",
+        "comment": " Which movies they appear in.\n",
+        "type": "Graphqelm.Field.Field (List Swapi.Enum.Episode.Episode) Swapi.Object.Human"
       },
       {
-        "name": "toString",
-        "comment": " Convert from the union type representating the Enum to a string that the GraphQL server will recognize.\n",
-        "type": "Swapi.Enum.Episode.Episode -> String"
+        "name": "avatarUrl",
+        "comment": " Url to a profile picture for the character.\n",
+        "type": "Graphqelm.Field.Field String Swapi.Object.Human"
+      },
+      {
+        "name": "friends",
+        "comment": " The friends of the human, or an empty list if they have none.\n",
+        "type": "Graphqelm.SelectionSet.SelectionSet decodesTo Swapi.Interface.Character -> Graphqelm.Field.Field (List decodesTo) Swapi.Object.Human"
+      },
+      {
+        "name": "homePlanet",
+        "comment": " The home planet of the human, or null if unknown.\n",
+        "type": "Graphqelm.Field.Field (Maybe.Maybe String) Swapi.Object.Human"
+      },
+      {
+        "name": "id",
+        "comment": " The ID of the human.\n",
+        "type": "Graphqelm.Field.Field Swapi.Scalar.Id Swapi.Object.Human"
+      },
+      {
+        "name": "name",
+        "comment": " The name of the human.\n",
+        "type": "Graphqelm.Field.Field String Swapi.Object.Human"
+      },
+      {
+        "name": "selection",
+        "comment": " Select fields to build up a SelectionSet for this object.\n",
+        "type": "(a -> constructor) -> Graphqelm.SelectionSet.SelectionSet (a -> constructor) Swapi.Object.Human"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Swapi.InputObject.GreetingOptions",
+    "comment": "\n\n@docs GreetingOptions, encode\n\n",
+    "aliases": [
+      {
+        "name": "GreetingOptions",
+        "comment": " Type for the GreetingOptions input object.\n",
+        "args": [],
+        "type": "{ prefix : Graphqelm.OptionalArgument.OptionalArgument String }"
+      }
+    ],
+    "types": [],
+    "values": [
+      {
+        "name": "encode",
+        "comment": " Encode a GreetingOptions into a value that can be used as an argument.\n",
+        "type": "Swapi.InputObject.GreetingOptions.GreetingOptions -> Graphqelm.Internal.Encode.Value"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Swapi.Object.Droid",
+    "comment": " Code for retrieving fields from a Character in a type-safe way.\n@docs selection, appearsIn, friends, id, name, primaryFunction, avatarUrl\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "appearsIn",
+        "comment": " Which movies they appear in.\n",
+        "type": "Graphqelm.Field.Field (List Swapi.Enum.Episode.Episode) Swapi.Object.Droid"
+      },
+      {
+        "name": "avatarUrl",
+        "comment": " Url to a profile picture for the character.\n",
+        "type": "Graphqelm.Field.Field String Swapi.Object.Droid"
+      },
+      {
+        "name": "friends",
+        "comment": " The friends of the droid, or an empty list if they have none.\n",
+        "type": "Graphqelm.SelectionSet.SelectionSet decodesTo Swapi.Interface.Character -> Graphqelm.Field.Field (List decodesTo) Swapi.Object.Droid"
+      },
+      {
+        "name": "id",
+        "comment": " The ID of the droid.\n",
+        "type": "Graphqelm.Field.Field Swapi.Scalar.Id Swapi.Object.Droid"
+      },
+      {
+        "name": "name",
+        "comment": " The name of the droid.\n",
+        "type": "Graphqelm.Field.Field String Swapi.Object.Droid"
+      },
+      {
+        "name": "primaryFunction",
+        "comment": " The primary function of the droid.\n",
+        "type": "Graphqelm.Field.Field (Maybe.Maybe String) Swapi.Object.Droid"
+      },
+      {
+        "name": "selection",
+        "comment": " Select fields to build up a SelectionSet for this object.\n",
+        "type": "(a -> constructor) -> Graphqelm.SelectionSet.SelectionSet (a -> constructor) Swapi.Object.Droid"
       }
     ],
     "generated-with-elm-version": "0.18.0"
@@ -510,6 +372,129 @@
     "generated-with-elm-version": "0.18.0"
   },
   {
+    "name": "Swapi.Union",
+    "comment": " Type declarations used to give you type-safety so you only access types\nfrom the appropriate union.\n@docs CharacterUnion\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "CharacterUnion",
+        "comment": " CharacterUnion\n",
+        "args": [],
+        "cases": [
+          [
+            "CharacterUnion",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Swapi.Scalar",
+    "comment": " Type constructors to build scalars. These data types are just wrappers\naround strings, but their types carry semantic information from the server.\n@docs Id\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Id",
+        "comment": " Id scalar\n",
+        "args": [],
+        "cases": [
+          [
+            "Id",
+            [
+              "String"
+            ]
+          ]
+        ]
+      }
+    ],
+    "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Swapi.Object",
+    "comment": " Type declarations used to give you type-safety so you only access types\nfrom the appropriate object.\n@docs Droid, Human, ChatMessage\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "ChatMessage",
+        "comment": " ChatMessage\n",
+        "args": [],
+        "cases": [
+          [
+            "ChatMessage",
+            []
+          ]
+        ]
+      },
+      {
+        "name": "Droid",
+        "comment": " Droid\n",
+        "args": [],
+        "cases": [
+          [
+            "Droid",
+            []
+          ]
+        ]
+      },
+      {
+        "name": "Human",
+        "comment": " Human\n",
+        "args": [],
+        "cases": [
+          [
+            "Human",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Swapi.Enum.Language",
+    "comment": " Enum for languages for greetings.\n@docs Language, decoder, toString\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Language",
+        "comment": "\n\n  - En - English\n  - Es - Spanish\n  - No - Norwegian\n\n",
+        "args": [],
+        "cases": [
+          [
+            "En",
+            []
+          ],
+          [
+            "Es",
+            []
+          ],
+          [
+            "No",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "decoder",
+        "comment": " Decode a string from the GraphQL server into the Language union.\n",
+        "type": "Json.Decode.Decoder Swapi.Enum.Language.Language"
+      },
+      {
+        "name": "toString",
+        "comment": " Convert from the union type representating the Enum to a string that the GraphQL server will recognize.\n",
+        "type": "Swapi.Enum.Language.Language -> String"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
     "name": "Swapi.Interface",
     "comment": " Type declarations used to give you type-safety so you only access types\nfrom the appropriate interface.\n@docs Character\n",
     "aliases": [],
@@ -527,6 +512,45 @@
       }
     ],
     "values": [],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Swapi.Enum.Episode",
+    "comment": " Enum for all episodes that the API has in its system.\n@docs Episode, decoder, toString\n",
+    "aliases": [],
+    "types": [
+      {
+        "name": "Episode",
+        "comment": " One of the films in the Star Wars Trilogy\n\n  - Empire - Released in 1980.\n  - Jedi - Released in 1983.\n  - Newhope - Released in 1977.\n\n",
+        "args": [],
+        "cases": [
+          [
+            "Empire",
+            []
+          ],
+          [
+            "Jedi",
+            []
+          ],
+          [
+            "Newhope",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "decoder",
+        "comment": " Decode an Episode from the GraphQL endpoint.\n",
+        "type": "Json.Decode.Decoder Swapi.Enum.Episode.Episode"
+      },
+      {
+        "name": "toString",
+        "comment": " Convert from the union type representating the Enum to a string that the GraphQL server will recognize.\n",
+        "type": "Swapi.Enum.Episode.Episode -> String"
+      }
+    ],
     "generated-with-elm-version": "0.18.0"
   }
 ]
