@@ -4,6 +4,12 @@
 
 module Swapi.Object.ChatMessage exposing (..)
 
+{-| Chat messages for subscriptions demo
+
+@docs selection, character, phrase
+
+-}
+
 import Graphqelm.Field as Field exposing (Field)
 import Graphqelm.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphqelm.Internal.Builder.Object as Object
@@ -25,11 +31,15 @@ selection constructor =
     Object.selection constructor
 
 
+{-| The character who sent the message.
+-}
 character : SelectionSet decodesTo Swapi.Interface.Character -> Field (Maybe decodesTo) Swapi.Object.ChatMessage
 character object =
     Object.selectionField "character" [] object (identity >> Decode.maybe)
 
 
+{-| The phrase that was sent as the message.
+-}
 phrase : Field Swapi.Enum.Phrase.Phrase Swapi.Object.ChatMessage
 phrase =
     Object.fieldDecoder "phrase" [] Swapi.Enum.Phrase.decoder

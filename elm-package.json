@@ -17,6 +17,7 @@
         "Swapi.Enum.Phrase",
         "Swapi.Enum.Episode",
         "Swapi.Enum.Language",
+        "Swapi.Object.ChatMessage",
         "Swapi.InputObject.Greeting",
         "Swapi.InputObject.GreetingOptions",
         "Swapi.Interface.Character",
