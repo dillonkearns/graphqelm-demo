@@ -8,10 +8,13 @@
     ],
     "exposed-modules": [
         "Swapi.Query",
+        "Swapi.Mutation",
+        "Swapi.Subscription",
         "Swapi.Object",
         "Swapi.Interface",
         "Swapi.Scalar",
         "Swapi.Union",
+        "Swapi.Enum.Phrase",
         "Swapi.Enum.Episode",
         "Swapi.Enum.Language",
         "Swapi.InputObject.Greeting",
@@ -22,7 +25,7 @@
         "Swapi.Object.Human"
     ],
     "dependencies": {
-        "dillonkearns/graphqelm": "5.0.1 <= v < 6.0.0",
+        "dillonkearns/graphqelm": "7.2.0 <= v < 8.0.0",
         "elm-lang/core": "5.0.0 <= v < 6.0.0",
         "elm-lang/html": "2.0.0 <= v < 3.0.0",
         "elm-lang/http": "1.0.0 <= v < 2.0.0",

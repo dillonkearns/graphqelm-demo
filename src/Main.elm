@@ -1,7 +1,7 @@
 module Main exposing (main)
 
 import Graphqelm.Document as Document
-import Graphqelm.FieldDecoder as FieldDecoder
+import Graphqelm.Field as Field
 import Graphqelm.Http
 import Graphqelm.Operation exposing (RootQuery)
 import Graphqelm.SelectionSet exposing (SelectionSet, with)
@@ -51,9 +51,9 @@ human =
         |> with Human.name
         |> with
             (Human.appearsIn
-                -- FieldDecoder.map can be used to arbitraliy map
+                -- Field.map can be used to arbitraliy map
                 -- any field in your query.
-                |> FieldDecoder.map (List.map episodeYear)
+                |> Field.map (List.map episodeYear)
             )
 
 
