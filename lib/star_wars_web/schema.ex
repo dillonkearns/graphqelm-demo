@@ -193,6 +193,25 @@ defmodule StarWarsWeb.Schema do
         end
     end
 
+    field :recursive_input, type: :string  do
+      @desc "Test recursive input."
+      arg :input, type: non_null(:recursive)
+        resolve fn
+          _, _ ->
+            {:ok, "Hello!"}
+        end
+    end
+
+    field :circular_input, type: :string  do
+      @desc "Test circular input."
+      arg :input, type: non_null(:circular_one)
+        resolve fn
+          _, _ ->
+            {:ok, "Hello circular!"}
+        end
+    end
+
+
     field :droid, type: :droid, name: "_droid" do
       @desc "ID of the droid."
       arg :_ID, type: non_null(:id)
@@ -236,6 +255,19 @@ defmodule StarWarsWeb.Schema do
 
     end
 
+  end
+
+
+  input_object :recursive do
+    field :recursive, :recursive
+  end
+
+  input_object :circular_one do
+    field :circular_two, :circular_two
+  end
+
+  input_object :circular_two do
+    field :circular_one, :circular_one
   end
 
 end
