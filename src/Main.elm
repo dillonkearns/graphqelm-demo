@@ -116,7 +116,7 @@ heroWithName =
 makeRequest : Cmd Msg
 makeRequest =
     query
-        |> Graphqelm.Http.buildQueryRequest
+        |> Graphqelm.Http.queryRequest
             "https://graphqelm.herokuapp.com/api"
         |> Graphqelm.Http.send (RemoteData.fromResult >> GotResponse)
 
