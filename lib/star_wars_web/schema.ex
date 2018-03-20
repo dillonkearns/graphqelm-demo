@@ -267,6 +267,15 @@ defmodule StarWarsWeb.Schema do
   end
 
   query do
+      @desc "Getting this field will result in an error."
+      field :forced_error, type: :string do
+      resolve fn
+        _, _, _ ->
+          {:error, "Artificial error..."}
+        end
+      end
+
+
     field :greet, non_null(:string) do
       arg :input, non_null(:greeting)
       resolve fn
