@@ -201,6 +201,7 @@ defmodule StarWarsWeb.Schema do
 
   query do
     field :type, non_null(:string) do
+      arg :input, :reserved_word
       resolve fn
         _, _ ->
           {:ok, "Hello!"}
@@ -295,6 +296,9 @@ defmodule StarWarsWeb.Schema do
 
   end
 
+  input_object :reserved_word do
+    field :type, non_null(:string)
+  end
 
   input_object :recursive do
     field :recursive, :recursive
