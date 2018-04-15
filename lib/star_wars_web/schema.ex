@@ -200,6 +200,12 @@ defmodule StarWarsWeb.Schema do
   end
 
   query do
+    field :type, non_null(:string) do
+      resolve fn
+        _, _ ->
+          {:ok, "Hello!"}
+      end
+    end
     field :greet, non_null(:string) do
       arg :input, non_null(:greeting)
       resolve fn
