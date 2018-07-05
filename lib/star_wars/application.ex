@@ -12,6 +12,7 @@ defmodule StarWars.Application do
       supervisor(StarWarsWeb.Endpoint, []),
       supervisor(Absinthe.Subscription, [StarWarsWeb.Endpoint]),
       # Start your own worker by calling: StarWars.Worker.start_link(arg1, arg2, arg3)
+      worker(StarWars.CounterAgent, [123])
       # worker(StarWars.Worker, [arg1, arg2, arg3]),
     ]
 

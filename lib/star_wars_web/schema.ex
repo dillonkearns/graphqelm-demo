@@ -191,6 +191,12 @@ defmodule StarWarsWeb.Schema do
   end
 
   mutation do
+    field :increment, non_null(:integer) do
+      resolve fn _, _ , _ ->
+        {:ok, StarWars.CounterAgent.increment}
+      end
+
+    end
     field :send_message, :chat_message do
       arg :phrase, non_null(:phrase)
       arg :character_id, non_null(:id)
