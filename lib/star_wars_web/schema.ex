@@ -1,13 +1,9 @@
-defmodule Human do
+defmodule Character do
   defstruct [:id, :name, :avatar_url, :friends, :appears_in, :home_planet]
 
 end
-defmodule Droid do
-  defstruct [:id, :name, :avatar_url, :friends, :appears_in, :primary_function]
-
-end
 defmodule StarWarsWeb.Schema do
-  @luke %Human{
+  @luke %Character{
     id: "1000",
     name: "Luke Skywalker",
     avatar_url: "http://www.diszine.com/wp-content/uploads/2013/02/luke-skywalker-mark-hamill.jpg",
@@ -15,7 +11,7 @@ defmodule StarWarsWeb.Schema do
     appears_in: [4, 5, 6],
     home_planet: "Tatooine"
   }
-  @vader %Human{
+  @vader %Character{
     id: "1001",
     name: "Darth Vader",
     avatar_url: "https://avatarfiles.alphacoders.com/468/46847.jpg",
@@ -24,7 +20,7 @@ defmodule StarWarsWeb.Schema do
     home_planet: "Tatooine",
   }
 
-   @han %Human{
+   @han %Character{
     id: "1002",
     name: "Han Solo",
     avatar_url: "http://comic-cons.xyz/wp-content/uploads/Star-Wars-avatars-Movie-Han-Solo-Harrison-Ford.jpg",
@@ -32,7 +28,7 @@ defmodule StarWarsWeb.Schema do
     appears_in: [4, 5, 6]
   }
 
-   @leia %Human{
+   @leia %Character{
     id: "1003",
     name: "Leia Organa",
     avatar_url: "https://78.media.tumblr.com/avatar_60b17e7d34ad_128.pnj",
@@ -41,7 +37,7 @@ defmodule StarWarsWeb.Schema do
     home_planet: "Alderaan"
   }
 
-   @tarkin %Human{
+   @tarkin %Character{
     id: "1004",
     name: "Wilhuff Tarkin",
     avatar_url: "https://timedotcom.files.wordpress.com/2016/12/grand-moff-tarkin1.jpg?quality=30",
@@ -49,108 +45,48 @@ defmodule StarWarsWeb.Schema do
     appears_in: [4]
   }
 
-  @threepio %Droid{
+  @threepio %Character{
     id: "2000",
     name: "C-3PO",
     avatar_url: "https://pbs.twimg.com/profile_images/22039052/03.01.c3po_400x400.jpg",
     friends: ["1000", "1002", "1003", "2001"],
     appears_in: [4, 5, 6],
-    primary_function: "Protocol",
   }
 
-  @artoo %Droid{
+  @artoo %Character{
     id: "2001",
     name: "R2-D2",
     avatar_url: "https://giffiles.alphacoders.com/884/thumb-8849.jpg",
     friends: ["1000", "1002", "1003"],
     appears_in: [4, 5, 6],
-    primary_function: "Astromech",
   }
 
   use Absinthe.Schema
 
-  @desc "A union alternative to the character interface for learning purposes."
-  union :character_union do
-    types [:human, :droid]
-    resolve_type fn
-      %Human{}, _ -> :human
-      %Droid{}, _ -> :droid
-      _, _ -> nil
-    end
-  end
-
-
-  @desc "A character in the Star Wars Trilogy"
-  interface :character do
+  @desc "A character in the Star Wars universe."
+  object :character do
     @desc "The ID of the character."
     field :id, non_null(:id)
     @desc "The name of the character."
     field :name, non_null(:string)
-    @desc  "The friends of the character, or an empty list if they have none."
+    @desc "Url to a profile picture for the character."
+    field :avatar_url, type: non_null(:string)
+    @desc "The friends of the character, or an empty list if they have none."
     field :friends, type: non_null(list_of(non_null(:character))) do
       resolve fn
         character, _, _ ->
           {:ok, character.friends |> Enum.map(&get_character/1)}
       end
     end
-    @desc "Url to a profile picture for the character."
-    field :avatar_url, type: non_null(:string)
-    @desc "Which movies they appear in."
-    field :appears_in, type: non_null(list_of(non_null(:episode)))
-    resolve_type fn
-      %Human{}, _ -> :human
-      %Droid{}, _ -> :droid
-      _, _ -> nil
-    end
-  end
-
-  @desc "A humanoid creature in the Star Wars universe."
-  object :human do
-    @desc "The ID of the human."
-    field :id, non_null(:id)
-    @desc "The name of the human."
-    field :name, non_null(:string)
-    @desc "Url to a profile picture for the character."
-    field :avatar_url, type: non_null(:string)
-    @desc "The friends of the human, or an empty list if they have none."
-    field :friends, type: non_null(list_of(non_null(:character))) do
-      resolve fn
-        human, _, _ ->
-          {:ok, human.friends |> Enum.map(&get_character/1)}
-      end
-    end
     @desc "Which movies they appear in."
     field :appears_in, type: non_null(list_of(non_null(:episode))) do
       resolve fn
-        human, _, _ ->
-          {:ok, human.appears_in |> Enum.map(&to_episode/1)}
+        character, _, _ ->
+          {:ok, character.appears_in |> Enum.map(&to_episode/1)}
       end
     end
-    @desc "The home planet of the human, or null if unknown."
+    @desc "The home planet of the character, or null if unknown."
     field :home_planet, :string
-    interface :character
-  end
-
-  @desc "A mechanical creature in the Star Wars universe."
-  object :droid do
-    @desc "The ID of the droid."
-    field :id, non_null(:id)
-    @desc "The name of the droid."
-    field :name, non_null(:string)
-    @desc "Url to a profile picture for the character."
-    field :avatar_url, type: non_null(:string)
-    @desc "The friends of the droid, or an empty list if they have none."
-    field :friends, type: non_null(list_of(non_null(:character))) do
-      resolve fn
-        human, _, _ ->
-          {:ok, human.friends |> Enum.map(&get_character/1)}
-      end
-    end
-    @desc "Which movies they appear in."
-    field :appears_in, type: non_null(list_of(non_null(:episode)))
-    @desc "The primary function of the droid."
-    field :primary_function, :string
-    interface :character
   end
 
   @desc "One of the films in the Star Wars Trilogy"
@@ -273,64 +209,25 @@ defmodule StarWarsWeb.Schema do
   end
 
   query do
-      @desc "Getting this field will result in an error."
-      field :forced_error, type: :string do
+      @desc "Get all known characters."
+      field :all, type: list_of(:character) do
       resolve fn
         _, _, _ ->
-          {:error, "Artificial error..."}
+          {:ok, [@luke, @leia, @han, @vader, @tarkin, @threepio, @artoo]}
         end
       end
 
 
-    field :greet, non_null(:string) do
-      arg :input, non_null(:greeting)
-      resolve fn
-        %{input: %{language: :no, name: name}}, _ ->
-          {:ok, "Hei, #{name}!"}
-        %{input: %{language: :es, name: name}}, _ ->
-            {:ok, "¡Hola, #{name}!"}
-        %{input: %{name: name, options: %{prefix: prefix}}}, _ ->
-          {:ok, "#{prefix}Hello, #{name}!"}
-        %{input: %{name: name}}, _ ->
-          {:ok, "Hello, #{name}!"}
-      end
-    end
 
-    field :human, :human do
-      @desc "ID of the human."
+    field :character, :character do
+      @desc "ID of the character."
       arg :id, type: non_null(:id)
         resolve fn
           %{id: id}, _ ->
-              {:ok, get_human(id)}
+              {:ok, get_character(id)}
           _, _ ->
             {:ok, @luke}
         end
-    end
-
-    field :droid, :droid do
-      @desc "ID of the droid."
-      arg :id, type: non_null(:id)
-        resolve fn
-          %{id: id}, _ ->
-              {:ok, get_droid(id)}
-        end
-    end
-
-    field :hero_union, :character_union do
-      @desc "If omitted, returns the hero of the whole saga. If provided, returns the hero of that particular episode."
-      arg :episode, type: :episode
-      resolve fn
-        %{episode: episode}, _ ->
-          case episode do
-            :empire ->
-              {:ok, @luke}
-            _ ->
-              {:ok, @artoo}
-          end
-        _, _ ->
-          {:ok, @luke}
-      end
-
     end
 
     field :hero, non_null(:character) do
