@@ -65,8 +65,8 @@ defmodule StarWarsWeb.Schema do
     field(:id, non_null(:id))
     @desc "The name of the character."
     field(:name, non_null(:string))
-    @desc "Url to a profile picture for the character."
-    field(:avatar_url, type: non_null(:string))
+    # @desc "Url to a profile picture for the character."
+    # field(:avatar_url, type: non_null(:string))
     @desc "The friends of the character, or an empty list if they have none."
     field :friends, type: non_null(list_of(non_null(:character))) do
       resolve(fn character, _, _ ->
@@ -91,12 +91,12 @@ defmodule StarWarsWeb.Schema do
   end
 
   query do
-    @desc "Get all known characters."
-    field :all, type: non_null(list_of(non_null(:character))) do
-      resolve(fn _, _, _ ->
-        {:ok, [@luke, @leia, @han, @vader, @threepio, @artoo]}
-      end)
-    end
+    # @desc "Get all known characters."
+    # field :all, type: non_null(list_of(non_null(:character))) do
+    #   resolve(fn _, _, _ ->
+    #     {:ok, [@luke, @leia, @han, @vader, @threepio, @artoo]}
+    #   end)
+    # end
 
     field :character, :character do
       @desc "ID of the character."
