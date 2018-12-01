@@ -282,6 +282,13 @@ defmodule StarWarsWeb.Schema do
       end
 
 
+    field :hello, non_null(:string) do
+      resolve fn
+        _, _, _ ->
+          {:ok, "Hello from GraphQL!"}
+        end
+    end
+    
     field :greet, non_null(:string) do
       arg :input, non_null(:greeting)
       resolve fn
