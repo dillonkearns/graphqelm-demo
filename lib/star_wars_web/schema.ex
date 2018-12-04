@@ -1,3 +1,5 @@
+use Timex
+
 defmodule Human do
   defstruct [:id, :name, :avatar_url, :friends, :appears_in, :home_planet]
 
@@ -288,7 +290,14 @@ defmodule StarWarsWeb.Schema do
           {:ok, "Hello from GraphQL!"}
         end
     end
-    
+
+    field :today, non_null(:string) do
+      resolve fn
+        _, _, _ ->
+          {:ok, Timex.today}
+        end
+    end
+
     field :greet, non_null(:string) do
       arg :input, non_null(:greeting)
       resolve fn
