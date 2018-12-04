@@ -294,7 +294,7 @@ defmodule StarWarsWeb.Schema do
     field :today, non_null(:string) do
       resolve fn
         _, _, _ ->
-          {:ok, Timex.today}
+          {:ok, Timex.local |> Timex.format!("{WDfull}, {Mfull} {D}") }
         end
     end
 
