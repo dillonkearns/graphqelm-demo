@@ -1,3 +1,19 @@
+defmodule Cat do
+  defstruct [:id]
+end
+
+defmodule Dog do
+  defstruct [:id]
+end
+
+defmodule MaybeId do
+  defstruct [:id]
+end
+
+defmodule ListId do
+  defstruct [:id]
+end
+
 defmodule Human do
   defstruct [:id, :name, :friends, :appears_in, :home_planet]
 
@@ -71,6 +87,45 @@ defmodule StarWarsWeb.Schema do
       _, _ -> nil
     end
   end
+
+  object :cat do
+    field :id, non_null(:cat_id)
+  end
+
+  object :dog do
+    field :id, non_null(:dog_id)
+  end
+
+  object :maybe_id do
+    field :id, :dog_id
+  end
+
+  object :list_id do
+    field :id, list_of(:dog_id)
+  end
+
+  scalar :cat_id do
+    serialize(&(&1))
+    parse(&(&1))
+  end
+
+  scalar :dog_id do
+    serialize(&(&1))
+    parse(&(&1))
+  end
+
+  @desc "A union with fields of the same name but different types. For testing ambiguous union selections, see https://facebook.github.io/graphql/draft/#example-54e3d."
+  union :conflicting_types_union do
+    types [:dog, :cat, :maybe_id, :list_id]
+    resolve_type fn
+      %Cat{}, _ -> :cat
+      %Dog{}, _ -> :dog
+      %MaybeId{}, _ -> :maybe_id
+      %ListId{}, _ -> :list_id
+      _, _ -> nil
+    end
+  end
+
 
 
   @desc "A character in the Star Wars Trilogy"
@@ -200,6 +255,13 @@ defmodule StarWarsWeb.Schema do
   end
 
   query do
+    field :conflicting_types_union, non_null(:conflicting_types_union) do
+      resolve fn
+        _, _ ->
+          {:ok, %Cat{id: "123"}}
+      end
+    end
+
     field :type, non_null(:string) do
       arg :input, :reserved_word
       resolve fn
