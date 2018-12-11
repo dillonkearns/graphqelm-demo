@@ -81,6 +81,12 @@ defmodule StarWarsWeb.Schema do
     end
   end
 
+  @desc "Represents posix milliseconds (milliseconds since Jan. 1, 1970)."
+  scalar :posix_time do
+    serialize &DateTime.to_unix(&1, :millisecond)
+    parse &DateTime.from_unix(&1, :millisecond)
+  end
+
 
   @desc "A character in the Star Wars Trilogy"
   interface :character do
@@ -281,6 +287,13 @@ defmodule StarWarsWeb.Schema do
         _, _, _ ->
           {:error, "Artificial error..."}
         end
+      end
+
+      field :now, type: non_null(:posix_time) do
+        resolve fn
+          _, _, _ ->
+            {:ok, DateTime.utc_now }
+          end
       end
 
 
