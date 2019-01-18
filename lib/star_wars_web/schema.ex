@@ -1,13 +1,5 @@
 use Timex
 
-defmodule Human do
-  defstruct [:id, :name, :avatar_url, :friends, :appears_in, :home_planet]
-
-end
-defmodule Droid do
-  defstruct [:id, :name, :avatar_url, :friends, :appears_in, :primary_function]
-
-end
 defmodule StarWarsWeb.Schema do
   @luke %Human{
     id: "1000",
