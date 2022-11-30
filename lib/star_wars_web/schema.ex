@@ -23,6 +23,22 @@ defmodule Droid do
 
 end
 defmodule StarWarsWeb.Schema do
+  query do
+    field :greetsimple, non_null(:string) do
+      arg :input, non_null(:greeting)
+      resolve fn
+        %{input: %{language: :no, name: name}}, _ ->
+          {:ok, "Hei, #{name}!"}
+        %{input: %{language: :es, name: name}}, _ ->
+            {:ok, "¡Hola, #{name}!"}
+        %{input: %{name: name, options: %{prefix: prefix}}}, _ ->
+          {:ok, "#{prefix}Hello, #{name}!"}
+        %{input: %{name: name}}, _ ->
+          {:ok, "Hello, #{name}!"}
+      end
+    end
+  end
+
   @luke %Human{
     id: "1000",
     name: "Luke Skywalker",
