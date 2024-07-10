@@ -23,6 +23,8 @@ defmodule Droid do
 
 end
 defmodule StarWarsWeb.Schema do
+  use Absinthe.Schema
+
   query do
     field :greetsimple, non_null(:string) do
       arg :input, non_null(:greeting)
@@ -37,6 +39,108 @@ defmodule StarWarsWeb.Schema do
           {:ok, "Hello, #{name}!"}
       end
     end
+
+    field :conflicting_types_union, non_null(:conflicting_types_union) do
+      resolve fn
+        _, _ ->
+          {:ok, %Cat{id: "123"}}
+      end
+    end
+
+    field :type, non_null(:string) do
+      arg :input, :reserved_word
+      resolve fn
+        _, _ ->
+          {:ok, "Hello!"}
+      end
+    end
+    field :greet, non_null(:string) do
+      arg :input, non_null(:greeting)
+      resolve fn
+        %{input: %{language: :no, name: name}}, _ ->
+          {:ok, "Hei, #{name}!"}
+        %{input: %{language: :es, name: name}}, _ ->
+            {:ok, "¡Hola, #{name}!"}
+        %{input: %{name: name, options: %{prefix: prefix}}}, _ ->
+          {:ok, "#{prefix}Hello, #{name}!"}
+        %{input: %{name: name}}, _ ->
+          {:ok, "Hello, #{name}!"}
+      end
+    end
+
+    field :human, type: :human  do
+      @desc "ID of the human."
+      arg :id, type: non_null(:id)
+        resolve fn
+          %{id: id}, _ ->
+              {:ok, get_human(id)}
+          _, _ ->
+            {:ok, @luke}
+        end
+    end
+
+    field :recursive_input, type: :string  do
+      @desc "Test recursive input."
+      arg :input, type: non_null(:recursive)
+        resolve fn
+          _, _ ->
+            {:ok, "Hello!"}
+        end
+    end
+
+    field :circular_input, type: :string  do
+      @desc "Test circular input."
+      arg :input, type: non_null(:circular_one)
+        resolve fn
+          _, _ ->
+            {:ok, "Hello circular!"}
+        end
+    end
+
+
+    field :droid, type: :droid, name: "_droid" do
+      @desc "ID of the droid."
+      arg :_ID, type: non_null(:id)
+        resolve fn
+          %{id: id}, _ ->
+              {:ok, get_droid(id)}
+        end
+    end
+
+    field :hero_union, :character_union do
+      @desc "If omitted, returns the hero of the whole saga. If provided, returns the hero of that particular episode."
+      arg :episode, type: :episode
+      resolve fn
+        %{episode: episode}, _ ->
+          case episode do
+            :empire ->
+              {:ok, @luke}
+            _ ->
+              {:ok, @artoo}
+          end
+        _, _ ->
+          {:ok, @luke}
+      end
+
+    end
+
+    field :hero, non_null(:character) do
+      @desc "If omitted, returns the hero of the whole saga. If provided, returns the hero of that particular episode."
+      arg :episode, type: :episode
+      resolve fn
+        %{episode: episode}, _ ->
+          case episode do
+            :empire ->
+              {:ok, @luke}
+            _ ->
+              {:ok, @artoo}
+          end
+        _, _ ->
+          {:ok, @luke}
+      end
+
+    end
+
   end
 
   @luke %Human{
@@ -92,7 +196,6 @@ defmodule StarWarsWeb.Schema do
     primary_function: "Astromech",
   }
 
-  use Absinthe.Schema
 
   @desc "A union alternative to the character interface for learning purposes."
   union :character_union do
@@ -270,109 +373,6 @@ defmodule StarWarsWeb.Schema do
     value :es
   end
 
-  query do
-    field :conflicting_types_union, non_null(:conflicting_types_union) do
-      resolve fn
-        _, _ ->
-          {:ok, %Cat{id: "123"}}
-      end
-    end
-
-    field :type, non_null(:string) do
-      arg :input, :reserved_word
-      resolve fn
-        _, _ ->
-          {:ok, "Hello!"}
-      end
-    end
-    field :greet, non_null(:string) do
-      arg :input, non_null(:greeting)
-      resolve fn
-        %{input: %{language: :no, name: name}}, _ ->
-          {:ok, "Hei, #{name}!"}
-        %{input: %{language: :es, name: name}}, _ ->
-            {:ok, "¡Hola, #{name}!"}
-        %{input: %{name: name, options: %{prefix: prefix}}}, _ ->
-          {:ok, "#{prefix}Hello, #{name}!"}
-        %{input: %{name: name}}, _ ->
-          {:ok, "Hello, #{name}!"}
-      end
-    end
-
-    field :human, type: :human  do
-      @desc "ID of the human."
-      arg :id, type: non_null(:id)
-        resolve fn
-          %{id: id}, _ ->
-              {:ok, get_human(id)}
-          _, _ ->
-            {:ok, @luke}
-        end
-    end
-
-    field :recursive_input, type: :string  do
-      @desc "Test recursive input."
-      arg :input, type: non_null(:recursive)
-        resolve fn
-          _, _ ->
-            {:ok, "Hello!"}
-        end
-    end
-
-    field :circular_input, type: :string  do
-      @desc "Test circular input."
-      arg :input, type: non_null(:circular_one)
-        resolve fn
-          _, _ ->
-            {:ok, "Hello circular!"}
-        end
-    end
-
-
-    field :droid, type: :droid, name: "_droid" do
-      @desc "ID of the droid."
-      arg :_ID, type: non_null(:id)
-        resolve fn
-          %{id: id}, _ ->
-              {:ok, get_droid(id)}
-        end
-    end
-
-    field :hero_union, :character_union do
-      @desc "If omitted, returns the hero of the whole saga. If provided, returns the hero of that particular episode."
-      arg :episode, type: :episode
-      resolve fn
-        %{episode: episode}, _ ->
-          case episode do
-            :empire ->
-              {:ok, @luke}
-            _ ->
-              {:ok, @artoo}
-          end
-        _, _ ->
-          {:ok, @luke}
-      end
-
-    end
-
-    field :hero, non_null(:character) do
-      @desc "If omitted, returns the hero of the whole saga. If provided, returns the hero of that particular episode."
-      arg :episode, type: :episode
-      resolve fn
-        %{episode: episode}, _ ->
-          case episode do
-            :empire ->
-              {:ok, @luke}
-            _ ->
-              {:ok, @artoo}
-          end
-        _, _ ->
-          {:ok, @luke}
-      end
-
-    end
-
-  end
 
   input_object :reserved_word do
     field :type, non_null(:string)
